@@ -17,39 +17,38 @@ function transform(arr) {
   if (!Array.isArray(arr)) {
     throw new Error(`'arr' parameter must be an instance of the Array!`);
   }
-  let rez = [];
+  
+ 
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] != `--discard-next` && arr[i] != `--discard-prev` && arr[i] != `--double-next` && arr[i] != `--double-prev` && arr[i] != NaN) {
-        // if (typeof (+arr[i]) == 'number') {
-        //   rez.push(arr[i]);
-        // }
-        rez.push(arr[i]);
-    } else if (arr[i] == '--discard-next') {
-      i=i+1;
-
-    } else if(arr[i] == '--discard-prev') {
-        if (typeof (+(arr[i]-1)) != NaN && arr[i]-1 != undefined) {
-          rez.pop();
-        }
-
-    } else if(arr[i] == '--double-next'){
-        if ((arr[i]+1) != NaN && arr[i]+1 !=undefined) {
-          rez.push(arr[i]+1);
-          rez.push(arr[i]+1);
-          i=i+1;
-        }
-
-    } else if (arr[i] == '--double-prev') {
-      if ((arr[i]-1) != NaN && arr[i]-1 !=undefined) {
-        rez.push(arr[i]-1);
+  
+  let rez = [...arr];
+  for (let i = 0; i < rez.length; i++) {
+    if (rez[i] == '--discard-next') {
+      if (rez[i+1]) {
+        rez.splice([i+1],1);
       }
-    } 
-       
-      
-    
+      rez.splice([i],1);
+    } else if (rez[i] == '--discard-prev') {
+      if (rez[i-1]) {
+        rez.splice([i-1],1);
+      }
+      rez.splice([i],1);
+    } else if (rez[i] == '--double-next') {
+      if (rez[i+1]) {
+        rez[i] = rez[i+1]
+      } else {
+        rez.splice([i],1);
+      }
+    } else if (rez[i] == '--double-prev') {
+      if (rez[i-1]) {
+        rez[i] = rez[i-1]
+      } else {
+        rez.splice([i],1);
+      }
+    }
   }
   return rez;
+  
  // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
 }
