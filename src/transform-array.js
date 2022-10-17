@@ -25,14 +25,18 @@ function transform(arr) {
   for (let i = 0; i < rez.length; i++) {
     if (rez[i] == '--discard-next') {
       if (rez[i+1]) {
-        rez.splice([i+1],1);
+        // rez.splice([i+1],1);
+        rez[i+1] = undefined;
       }
-      rez.splice([i],1);
+       rez.splice([i],1);
+      //rez[i] = undefined;
     } else if (rez[i] == '--discard-prev') {
       if (rez[i-1]) {
-        rez.splice([i-1],1);
+        // rez.splice([i-1],1);
+        rez[i-1] = undefined;
       }
       rez.splice([i],1);
+     
     } else if (rez[i] == '--double-next') {
       if (rez[i+1]) {
         rez[i] = rez[i+1]
@@ -47,7 +51,7 @@ function transform(arr) {
       }
     }
   }
-  return rez;
+  return rez.filter((item) => item != undefined);
   
  // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
